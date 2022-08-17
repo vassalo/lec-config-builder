@@ -10,14 +10,11 @@ function EditEnvironmentSection() {
     const changeEnvVarValue = useChangeEnvVarValue();
 
     useEffect(() => {
-        const currFormValues = form.getFieldsValue();
-        const finalFormValues: Record<string, string> = {};
+        const formValues: Record<string, string> = {};
         for (const envVar of envVars) {
-            if (!currFormValues[envVar.name]) {
-                finalFormValues[envVar.name] = envVar.value;
-            }
+            formValues[envVar.name] = envVar.value;
         }
-        form.setFieldsValue(finalFormValues);
+        form.setFieldsValue(formValues);
     }, [envVars]);
 
     const getFormattedEnvVars = useCallback((values: Record<string, string>) => {

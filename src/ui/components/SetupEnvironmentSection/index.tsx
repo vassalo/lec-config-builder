@@ -14,7 +14,7 @@ function SetupEnvironmentSection() {
     const envVars = useEnvVars();
     const lecInputValue = envVars.find(envVar => envVar.name === 'LOG_EXPORT_CONTAINER_INPUT')!.value;
     const toggleEnvVars = useToggleEnvVars();
-    const changeVariableValue = useChangeEnvVarValue();
+    const changeEnvVarValue = useChangeEnvVarValue();
 
     const getOptionAssociatedVariables = useCallback((event: CheckboxChangeEvent, optionName: string): EnvVar[] => {
         const envVarType = (event.target as any)['data-type'] as EnvVarTypes;
@@ -46,9 +46,9 @@ function SetupEnvironmentSection() {
         } else {
             outputTypes = outputEnvVar.value! + ` ${outputType}`;
         }
-        changeVariableValue(outputEnvVarName, outputTypes.trim());
+        changeEnvVarValue(outputEnvVarName, outputTypes.trim());
         handleToggleOption(event, optionName);
-    }, [envVars, changeVariableValue, handleToggleOption]);
+    }, [envVars, changeEnvVarValue, handleToggleOption]);
 
     const handleInputOnToggleOption = useCallback((event: RadioChangeEvent) => {
         const prevInputType = envVars.find(item => item.name === 'LOG_EXPORT_CONTAINER_INPUT')!.value as string;
@@ -60,9 +60,9 @@ function SetupEnvironmentSection() {
         for (const envVar of toggleVars) {
             countEnvVarsOccurrence[envVar.name] = (countEnvVarsOccurrence[envVar.name] ?? 0) + 1;
         }
-        changeVariableValue('LOG_EXPORT_CONTAINER_INPUT', event.target.value);
+        changeEnvVarValue('LOG_EXPORT_CONTAINER_INPUT', event.target.value);
         toggleEnvVars(toggleVars.filter(envVar => countEnvVarsOccurrence[envVar.name] === 1));
-    }, [envVars, changeVariableValue, handleToggleOption]);
+    }, [envVars, changeEnvVarValue, handleToggleOption]);
 
     return (
         <Col span={8} className='section'>
@@ -71,7 +71,7 @@ function SetupEnvironmentSection() {
             <h4>Inputs</h4>
             <Radio.Group onChange={handleInputOnToggleOption} value={lecInputValue}>
                 {Object.keys(globalEnvVars['inputs']).map(inputType => (
-                    <Radio className='radio-input' value={inputType} data-type='inputs'>
+                    <Radio key={inputType} className='radio-input' value={inputType} data-type='inputs'>
                         {inputType}
                     </Radio>
                 ))}

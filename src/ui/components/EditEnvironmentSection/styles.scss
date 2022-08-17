@@ -31,7 +31,8 @@ h3 {
   .variable-input {
     margin-top: 0.25rem;
 
-    &.readonly {
+    &.readonly,
+    &.readonly input {
       cursor: not-allowed;
     }
   }
