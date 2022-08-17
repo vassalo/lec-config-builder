@@ -31,4 +31,4 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Deploy
-        run: deploy.sh
+        run: bash deploy.sh
