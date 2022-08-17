@@ -32,8 +32,14 @@ jobs:
         uses: actions/checkout@v3
       - name: Setup Pages
         uses: actions/configure-pages@v1
+      - name: Update submodules
+        run: git submodule init && git submodule update
+      - name: Install dependencies
+        run: npm install
+      - name: Generate environment variables DB
+        run: node ./scripts/generate-lec-variables-db.js
       - name: Build
-        run: npm install && npm run build
+        run: npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:

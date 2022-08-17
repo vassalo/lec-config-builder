@@ -1,10 +1,7 @@
-import shell from 'shelljs';
 import fs from 'fs';
 
 function main() {
-    shell.exec('git clone https://github.com/strongdm/log-export-container -b docs/standardize-docs-for-config-builder ./temp/log-export-container');
-
-    const baseDocsPath = './temp/log-export-container/docs/';
+    const baseDocsPath = './log-export-container/docs/';
     const variablesDb = {
         inputs: extractInputVariables(),
         outputs: extractVariablesFromPath(baseDocsPath + 'outputs/'),
@@ -68,7 +65,7 @@ function extractInputVariables() {
         'tcp-csv': {}
     };
 
-    const path = './temp/log-export-container/docs/inputs/';
+    const path = './log-export-container/docs/inputs/';
     const files = fs.readdirSync(path);
     for (const fileName of files) {
         const textData = fs.readFileSync(path + fileName, 'utf8');

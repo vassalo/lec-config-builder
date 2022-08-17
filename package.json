@@ -16,7 +16,6 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.4.0",
     "sass": "^1.54.4",
-    "shelljs": "^0.8.5",
     "use-context-selector": "^1.4.1"
   },
   "devDependencies": {
