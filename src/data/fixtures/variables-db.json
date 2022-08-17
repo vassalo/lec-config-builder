@@ -1,0 +1,246 @@
+{
+  "inputs": {
+    "syslog-json": {},
+    "syslog-csv": {},
+    "tcp-json": {},
+    "tcp-csv": {},
+    "file-json": {
+      "LOG_FILE_PATH": {
+        "defaultValue": null,
+        "example": "/var/log/sdm/logs.log",
+        "description": "Log file path."
+      }
+    },
+    "file-csv": {
+      "LOG_FILE_PATH": {
+        "defaultValue": null,
+        "example": "/var/log/sdm/logs.log",
+        "description": "Log file path."
+      }
+    }
+  },
+  "outputs": {
+    "AZURE LOGANALYTICS": {
+      "AZURE_LOGANALYTICS_CUSTOMER_ID": {
+        "defaultValue": null,
+        "example": null,
+        "description": "Your Operations Management Suite Workspace ID"
+      },
+      "AZURE_LOGANALYTICS_SHARED_KEY": {
+        "defaultValue": null,
+        "example": null,
+        "description": "The primary or the secondary Connected Sources client authentication key"
+      }
+    },
+    "BIGQUERY": {
+      "BIGQUERY_PRIVATE_KEY": {
+        "defaultValue": null,
+        "example": null,
+        "description": "Value of the key “private_key” from the JSON downloaded in the KEYS tab present in the “Service Account” menu in the Google Cloud Platform Console"
+      },
+      "BIGQUERY_CLIENT_EMAIL": {
+        "defaultValue": null,
+        "example": null,
+        "description": "Email address generated when a new service account is created"
+      },
+      "BIGQUERY_PROJECT_ID": {
+        "defaultValue": null,
+        "example": null,
+        "description": "Project ID created on Google Cloud Platform in the BigQuery menu"
+      },
+      "BIGQUERY_DATASET_ID": {
+        "defaultValue": null,
+        "example": null,
+        "description": "ID of the dataset created within the project informed in the `BIG_QUERY_PROJECT_ID` variable"
+      },
+      "BIGQUERY_TABLE_ID": {
+        "defaultValue": null,
+        "example": null,
+        "description": "ID of the table created within the dataset informed in the variable `BIG_QUERY_DATASET_ID`"
+      }
+    },
+    "CLOUDWATCH": {
+      "AWS_ACCESS_KEY_ID": {
+        "defaultValue": null,
+        "example": null,
+        "description": "AWS Access Key"
+      },
+      "AWS_SECRET_ACCESS_KEY": {
+        "defaultValue": null,
+        "example": null,
+        "description": "AWS Access Secret"
+      },
+      "AWS_REGION": {
+        "defaultValue": null,
+        "example": "us-west-2",
+        "description": "AWS Region Name."
+      },
+      "CLOUDWATCH_LOG_GROUP_NAME": {
+        "defaultValue": null,
+        "example": "aws/sdm-logs",
+        "description": "AWS CloudWatch Log Group Name to store logs."
+      },
+      "CLOUDWATCH_LOG_STREAM_NAME": {
+        "defaultValue": null,
+        "example": "test",
+        "description": "AWS CloudWatch Log Stream Name to store logs."
+      }
+    },
+    "DATADOG": {
+      "DATADOG_API_KEY": {
+        "defaultValue": null,
+        "example": null,
+        "description": "This parameter is required in order to authenticate your fluent agent. Generate under: Integrations > APIs"
+      }
+    },
+    "ELASTICSEARCH": {
+      "ELASTICSEARCH_HOST": {
+        "defaultValue": null,
+        "example": "127.0.0.1",
+        "description": "ElasticSearch server host."
+      },
+      "ELASTICSEARCH_PORT": {
+        "defaultValue": "9200",
+        "example": "9201",
+        "description": "ElasticSearch server port."
+      },
+      "ELASTICSEARCH_INDEX_NAME": {
+        "defaultValue": null,
+        "example": "my-index",
+        "description": "ElasticSearch index name."
+      }
+    },
+    "KAFKA": {
+      "KAFKA_BROKERS": {
+        "defaultValue": null,
+        "example": null,
+        "description": "List of brokers, following the format: `<broker1_host>:<broker1_port>,<broker2_host>:<broker2_port>`"
+      },
+      "KAFKA_TOPIC": {
+        "defaultValue": null,
+        "example": null,
+        "description": "Topic name"
+      },
+      "KAFKA_FORMAT_TYPE": {
+        "defaultValue": "json",
+        "example": "text, json, ltsv, msgpack",
+        "description": "Input text type."
+      }
+    },
+    "LOGZ": {
+      "LOGZ_ENDPOINT": {
+        "defaultValue": null,
+        "example": "https://listener.logz.io:8071?token=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&type=my_type",
+        "description": "Logz.io Endpoint URL."
+      }
+    },
+    "LOKI": {
+      "LOKI_URL": {
+        "defaultValue": null,
+        "example": "http://localhost:3100",
+        "description": "Loki Endpoint URL."
+      }
+    },
+    "MONGO": {
+      "MONGO_URI": {
+        "defaultValue": null,
+        "example": null,
+        "description": "Mongo Connection URI"
+      },
+      "MONGO_COLLECTION": {
+        "defaultValue": "sdm_logs",
+        "example": null,
+        "description": "Mongo Collection to store the Log Export Container events."
+      }
+    },
+    "REMOTE SYSLOG": {
+      "REMOTE_SYSLOG_HOST": {
+        "defaultValue": null,
+        "example": null,
+        "description": "Remote Syslog host address."
+      },
+      "REMOTE_SYSLOG_PORT": {
+        "defaultValue": null,
+        "example": null,
+        "description": "Remote Syslog port."
+      },
+      "REMOTE_SYSLOG_PROTOCOL": {
+        "defaultValue": "tcp",
+        "example": null,
+        "description": "Remote Syslog protocol. Possible values: `tcp` or `udp`."
+      }
+    },
+    "S3": {
+      "AWS_ACCESS_KEY_ID": {
+        "defaultValue": null,
+        "example": null,
+        "description": "AWS Access Key"
+      },
+      "AWS_SECRET_ACCESS_KEY": {
+        "defaultValue": null,
+        "example": null,
+        "description": "AWS Access Secret"
+      },
+      "S3_BUCKET": {
+        "defaultValue": null,
+        "example": "log-export-container",
+        "description": "AWS S3 Bucket Name."
+      },
+      "S3_REGION": {
+        "defaultValue": null,
+        "example": "us-west-2",
+        "description": "AWS S3 Bucket Region Name."
+      },
+      "S3_PATH": {
+        "defaultValue": null,
+        "example": "logs",
+        "description": "AWS S3 Path to Append to your Logs. The actual path on S3 will be: `{path}{container_id}{time_slice_format}_{sequential_index}.gz (see s3_object_key_format)`"
+      }
+    },
+    "SPLUNK HEC": {
+      "SPLUNK_HEC_HOST": {
+        "defaultValue": null,
+        "example": "prd-p-xxxxx.splunkcloud.com",
+        "description": "The hostname/IP for the HEC token or the HEC load balancer."
+      },
+      "SPLUNK_HEC_PORT": {
+        "defaultValue": null,
+        "example": "8088",
+        "description": "The port number for the HEC token or the HEC load balancer."
+      },
+      "SPLUNK_HEC_TOKEN": {
+        "defaultValue": null,
+        "example": "xxxxxxxx-yyyy-yyyy-yyyy-zzzzzzzzzzzz",
+        "description": "Identifier for the HEC token."
+      }
+    },
+    "SUMOLOGIC": {
+      "SUMOLOGIC_ENDPOINT": {
+        "defaultValue": null,
+        "example": null,
+        "description": "SumoLogic HTTP Collector URL"
+      },
+      "SUMOLOGIC_SOURCE_CATEGORY": {
+        "defaultValue": null,
+        "example": "/prod/sdm/logs",
+        "description": "Source Category metadata field within SumoLogic."
+      }
+    }
+  },
+  "miscellaneous": {
+    "PROMETHEUS": {
+      "LOG_EXPORT_CONTAINER_ENABLE_MONITORING": {
+        "defaultValue": null,
+        "example": null,
+        "description": "Boolean variable to enable the monitoring endpoint."
+      }
+    },
+    "SDM AUDIT": {
+      "SDM_ADMIN_TOKEN": {
+        "defaultValue": null,
+        "example": null,
+        "description": "Admin Token created in SDM Web UI. The token must have the audit permissions for `Activities`, `Datasources`, `Users`, `Roles` and `Gateways`."
+      }
+    }
+  }
+}
