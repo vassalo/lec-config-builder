@@ -1,3 +1,17 @@
 .radio-input {
   display: block !important;
+  margin-right: 0 !important;
+
+  &::after {
+    height: 0;
+  }
+}
+
+.docs-link {
+  display: flex;
+  align-items: center;
+
+  svg {
+    font-size: 14px;
+  }
 }

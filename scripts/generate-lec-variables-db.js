@@ -1,13 +1,15 @@
 import fs from 'fs';
 
+const baseLECPath = './log-export-container/';
+const baseLECGithubURL = 'https://github.com/strongdm/log-export-container/tree/main/';
+
 function main() {
-    const baseDocsPath = './log-export-container/docs/';
     const variablesDb = {
         inputs: extractInputVariables(),
-        outputs: extractVariablesFromPath(baseDocsPath + 'outputs/'),
+        outputs: extractVariablesFromPath('docs/outputs/'),
         miscellaneous: {
-            ...extractVariablesFromPath(baseDocsPath + 'monitoring/'),
-            ...extractVariablesFromPath(baseDocsPath + 'audit/')
+            ...extractVariablesFromPath('docs/monitoring/'),
+            ...extractVariablesFromPath('docs/audit/')
         }
     };
 
@@ -65,34 +67,40 @@ function extractInputVariables() {
         'tcp-csv': {}
     };
 
-    const path = './log-export-container/docs/inputs/';
-    const files = fs.readdirSync(path);
+    const docsPath = 'docs/inputs/';
+    const files = fs.readdirSync(baseLECPath + docsPath);
     for (const fileName of files) {
-        const textData = fs.readFileSync(path + fileName, 'utf8');
+        const textData = fs.readFileSync(baseLECPath + docsPath + fileName, 'utf8');
         const mountedVariables = mountExtractedVariables(textData);
         if (!mountedVariables) {
             continue;
         }
         const lecInputValues = textData.match(/(?<=`LOG_EXPORT_CONTAINER_INPUT=)[^`]+(?=`)/g);
         for (const inputValue of lecInputValues) {
-            extractedVariables[inputValue] = mountedVariables;
+            extractedVariables[inputValue] = {
+                link: `${baseLECGithubURL}${docsPath}${fileName}`,
+                variables: mountedVariables
+            };
         }
     }
 
     return extractedVariables;
 }
 
-function extractVariablesFromPath(path) {
+function extractVariablesFromPath(docsPath) {
     const extractedVariables = {};
-    const files = fs.readdirSync(path);
+    const files = fs.readdirSync(baseLECPath + docsPath);
     for (const fileName of files) {
-        const textData = fs.readFileSync(path + fileName, 'utf8');
+        const textData = fs.readFileSync(baseLECPath + docsPath + fileName, 'utf8');
         const mountedVariables = mountExtractedVariables(textData);
         if (!mountedVariables) {
             continue;
         }
         const parsedFileName = parseFileName(fileName);
-        extractedVariables[parsedFileName] = mountedVariables;
+        extractedVariables[parsedFileName] = {
+            link: `${baseLECGithubURL}${docsPath}${fileName}`,
+            variables: mountedVariables
+        };
     }
 
     return extractedVariables;

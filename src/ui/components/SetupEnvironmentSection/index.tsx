@@ -1,4 +1,4 @@
-import { Checkbox, Col, Radio, RadioChangeEvent } from 'antd';
+import { Checkbox, Col, Radio, RadioChangeEvent, Row, Tooltip } from 'antd';
 import { useCallback } from 'react';
 import {
     useChangeEnvVarValue,
@@ -9,6 +9,16 @@ import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import { EnvVar } from '../../../core/domain/types/EnvVar';
 import { EnvVarTypes } from '../../../core/domain/types/EnvVarTypes';
 import './styles.scss';
+import { BiLinkExternal } from 'react-icons/all';
+
+type OptionInfo = {
+    link: string,
+    variables: Record<string, {
+        defaultValue: string | null,
+        example: string | null,
+        description: string | null
+    }>
+}
 
 function SetupEnvironmentSection() {
     const envVars = useEnvVars();
@@ -18,11 +28,7 @@ function SetupEnvironmentSection() {
 
     const getOptionAssociatedVariables = useCallback((event: CheckboxChangeEvent, optionName: string): EnvVar[] => {
         const envVarType = (event.target as any)['data-type'] as EnvVarTypes;
-        const associatedVariables = (globalEnvVars[envVarType] as Record<string, Record<string, {
-            defaultValue: string | null,
-            example: string | null,
-            description: string | null
-        }>>)[optionName];
+        const associatedVariables = (globalEnvVars[envVarType] as Record<string, OptionInfo>)[optionName].variables ?? {};
         return Object.entries(associatedVariables)
             .map(([name, varData]) => ({
                 name,
@@ -71,32 +77,62 @@ function SetupEnvironmentSection() {
             <h4>Inputs</h4>
             <Radio.Group onChange={handleInputOnToggleOption} value={lecInputValue}>
                 {Object.keys(globalEnvVars['inputs']).map(inputType => (
-                    <Radio key={inputType} className='radio-input' value={inputType} data-type='inputs'>
-                        {inputType}
-                    </Radio>
+                    <Row>
+                        <Radio key={inputType} className='radio-input' value={inputType} data-type='inputs'>
+                            {inputType}
+                        </Radio>
+                        {
+                            (globalEnvVars['inputs'] as any)[inputType]?.link &&
+                            <Tooltip title='Open docs'>
+                                <a className='docs-link' href={(globalEnvVars['inputs'] as any)[inputType]?.link} target='_blank'>
+                                    <BiLinkExternal />
+                                </a>
+                            </Tooltip>
+                        }
+                    </Row>
                 ))}
             </Radio.Group>
 
             <h4>Outputs</h4>
-            {Object.keys(globalEnvVars['outputs']).map(output => (
-                <Checkbox
-                    key={output}
-                    onChange={(event) => handleOutputOnToggleOption(event, output)}
-                    data-type='outputs'
-                >
-                    {output}
-                </Checkbox>
+            {Object.keys(globalEnvVars['outputs']).map(option => (
+                <Row>
+                    <Checkbox
+                        key={option}
+                        onChange={(event) => handleOutputOnToggleOption(event, option)}
+                        data-type='outputs'
+                    >
+                        {option}
+                    </Checkbox>
+                    {
+                        (globalEnvVars['outputs'] as any)[option]?.link &&
+                        <Tooltip title='Open docs'>
+                            <a className='docs-link' href={(globalEnvVars['outputs'] as any)[option]?.link} target='_blank'>
+                                <BiLinkExternal />
+                            </a>
+                        </Tooltip>
+                    }
+                </Row>
             ))}
 
             <h4>Misc</h4>
             {Object.keys(globalEnvVars['miscellaneous']).map(option => (
-                <Checkbox
-                    key={option}
-                    onChange={(event) => handleToggleOption(event, option)}
-                    data-type='miscellaneous'
-                >
-                    {option}
-                </Checkbox>
+                <Row>
+                    <Checkbox
+                        key={option}
+                        onChange={(event) => handleToggleOption(event, option)}
+                        data-type='miscellaneous'
+                    >
+                        {option}
+                    </Checkbox>
+                    {
+                        (globalEnvVars['miscellaneous'] as any)[option]?.link &&
+                        <Tooltip title='Open docs'>
+                            <a className='docs-link' href={(globalEnvVars['miscellaneous'] as any)[option]?.link} target='_blank'>
+                                <BiLinkExternal />
+                            </a>
+                        </Tooltip>
+                    }
+                </Row>
             ))}
         </Col>
     );
