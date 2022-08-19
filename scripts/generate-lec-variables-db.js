@@ -20,7 +20,7 @@ function extractAssociatedVariablesData(textData) {
     const linesWithVariables = textData
         .split('\n')
         .filter(line => line.match(/^[*-] \*\*.+\*\*/));
-    const associatedVariables = linesWithVariables.map(line => line.match(/(?<=\* \*\*).+(?=\*\*)/)[0]);
+    const associatedVariables = linesWithVariables.map(line => line.match(/(?<=\* \*\*).+(?=\*\*)/)?.[0]);
     const defaultValues = linesWithVariables.map(line => line.match(/(?<=\. Default = `)[^`]+(?=`\.)/)?.[0]);
     const examples = linesWithVariables.map(line => line.match(/(?<=\. E\.g\., `)[^`]+(?=`\.)/)?.[0]);
     const descriptions = linesWithVariables.map(line => line.match(/(?<=\*\*\. ).+/i)?.[0]);
@@ -34,7 +34,7 @@ function extractAssociatedVariablesData(textData) {
 
 function mountExtractedVariables(textData) {
     const [associatedVariables, defaultValues, placeholders, descriptions] = extractAssociatedVariablesData(textData);
-    if (!associatedVariables.length) {
+    if (!associatedVariables.length || !associatedVariables[0]) {
         return undefined
     }
     const extractedVariables = {}
@@ -89,18 +89,21 @@ function extractInputVariables() {
 
 function extractVariablesFromPath(docsPath) {
     const extractedVariables = {};
-    const files = fs.readdirSync(baseLECPath + docsPath);
-    for (const fileName of files) {
-        const textData = fs.readFileSync(baseLECPath + docsPath + fileName, 'utf8');
-        const mountedVariables = mountExtractedVariables(textData);
-        if (!mountedVariables) {
-            continue;
+    try {
+        const files = fs.readdirSync(baseLECPath + docsPath);
+        for (const fileName of files) {
+            const textData = fs.readFileSync(baseLECPath + docsPath + fileName, 'utf8');
+            const mountedVariables = mountExtractedVariables(textData);
+            if (!mountedVariables) {
+                continue;
+            }
+            const parsedFileName = parseFileName(fileName);
+            extractedVariables[parsedFileName] = {
+                link: `${baseLECGithubURL}${docsPath}${fileName}`,
+                variables: mountedVariables
+            };
         }
-        const parsedFileName = parseFileName(fileName);
-        extractedVariables[parsedFileName] = {
-            link: `${baseLECGithubURL}${docsPath}${fileName}`,
-            variables: mountedVariables
-        };
+    } catch (e) {
     }
 
     return extractedVariables;
